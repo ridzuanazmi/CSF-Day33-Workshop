@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { TodoComponent } from './components/todo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TasksComponent } from './components/tasks.component';
+import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,7 @@ import { TasksComponent } from './components/tasks.component';
     TasksComponent
   ],
   imports: [
-    BrowserModule, ReactiveFormsModule
+    BrowserModule, ReactiveFormsModule, MaterialModule, BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
