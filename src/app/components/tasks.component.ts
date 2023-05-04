@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { Todo } from '../models/todo';
 import { Subject } from 'rxjs';
 
