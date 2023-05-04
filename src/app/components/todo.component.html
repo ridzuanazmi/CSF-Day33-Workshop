@@ -1,1 +1,42 @@
-<p>todo works!</p>
+<h1>ToDo</h1>
+
+<form [formGroup]="todoForm" (ngSubmit)="addTask()">
+    <table>
+        <tr>
+            <td>Description: </td>
+            <td>
+                <input type="text" formControlName="description">
+            </td>
+        </tr>
+        <tr>
+            <td>Priority: </td>
+            <td>
+                <input type="radio" id="high" name="priority" value="high" formControlName="priority">
+                <label for="high">High</label>
+
+                <input type="radio" id="medium" name="priority" value="medium" formControlName="priority">
+                <label for="medium">Medium</label>
+
+                <input type="radio" id="low" name="priority" value="low" formControlName="priority" checked>
+                <label for="low">Low</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Due:
+            </td>
+            <td>
+                <input type="date" formControlName="dueDate">
+            </td>
+            <!-- This is important for validation. to ensure the error message shows up after the input is touched-->
+            <div *ngIf="todoForm.get('dueDate')?.dirty && todoForm.get('dueDate')?.hasError('pastDate')">
+                <span style="color: crimson;">Due date cannot be in the past</span>
+            </div>
+        </tr>
+        <tr>
+            <td>
+                <button type="submit" [disabled]="todoForm.invalid">Submit</button>
+            </td>
+        </tr>
+    </table>
+</form>

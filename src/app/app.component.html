@@ -1,1 +1,2 @@
-<app-todo></app-todo>
+<app-todo [taskList]="taskList" [selectedIdx]="parentIdx" (onNewTodo)="addTask($event)"></app-todo>
+<app-tasks [tasks]="taskList" (onModifyTask)="processModifyTask($event)"></app-tasks>
