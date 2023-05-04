@@ -1,5 +1,6 @@
 export interface Todo {
     description: string,
     priority: string,
-    dueDate: Date
+    dueDate: Date,
+    isCompleted: boolean
 }

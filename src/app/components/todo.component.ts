@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl, FormArray } from '@angular/forms';
 import { Todo } from '../models/todo';
 import { Subject } from 'rxjs';
 
@@ -8,25 +8,23 @@ import { Subject } from 'rxjs';
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.css']
 })
-export class TodoComponent implements OnInit{
+export class TodoComponent implements OnInit, OnChanges{
 
   todoForm!: FormGroup; // Initialize the FormGroup
+  todoArray!: FormArray; // Initialize the FormArray
 
   // List of the current taskList
-  @Input()
-  taskList?: Todo[];
-
-  // Selected index in the taskList to be updated
-  @Input()
-  selectedIdx?: number;
-
-  @Output()
-  onNewTodo = new Subject<Todo>
+  @Input() taskToEdit!: Todo; // This is what the OnChanges detect
+  @Output() onNewTodo = new Subject<Todo>
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.todoForm = this.createTodoForm();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      this.todoForm = this.createTodoForm();
   }
 
   // When the submit button is pressed, it should carry the form inputs
@@ -38,11 +36,12 @@ export class TodoComponent implements OnInit{
     this.todoForm.reset()
   }
 
+  // If the OnChanges detects an input, it will run this method 
   private createTodoForm(): FormGroup {
     return this.fb.group({
-      description: this.fb.control<string>('', [Validators.required, Validators.minLength(5)]),
-      priority: this.fb.control<string>('', [Validators.required]),
-      dueDate: this.fb.control<Date>(new Date(), [Validators.required, this.dateValidator()])
+      description: this.fb.control<string>(this.taskToEdit? this.taskToEdit.description : '', [Validators.required, Validators.minLength(5)]),
+      priority: this.fb.control<string>(this.taskToEdit? this.taskToEdit.priority : '', [Validators.required]),
+      dueDate: this.fb.control<Date>(this.taskToEdit? this.taskToEdit.dueDate : new Date(), [Validators.required, this.dateValidator()])
     })
   }
 

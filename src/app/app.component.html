@@ -1,2 +1,6 @@
-<app-todo [taskList]="taskList" [selectedIdx]="parentIdx" (onNewTodo)="addTask($event)"></app-todo>
+
+<button (click)="restorePrev()">Restore previous task</button>
+
+<app-todo [taskToEdit]="parentSelectedTask" (onNewTodo)="addTask($event)"></app-todo>
+
 <app-tasks [tasks]="taskList" (onModifyTask)="processModifyTask($event)"></app-tasks>

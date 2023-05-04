@@ -1,23 +1,38 @@
 <h1>Tasks</h1>
-<div *ngIf="tasks.length > 0; else noTask">
-    <table border="1">
-        <tr>
-            <td>Task</td>
-            <td>Priority</td>
-            <td>Due Date</td>
-            <td>Actions</td>
-        </tr>
-        <tr *ngFor="let i of tasks; let idx = index">
-            <td> {{ i.description }} </td>
-            <td> {{ i.priority }} </td>
-            <td> {{ i.dueDate }} </td>
-            <td>
+
+<!-- The <ng-container> allows us to use structural directives without any extra element -->
+<!-- This not only increases performance (even so slightly) since the browser ends up 
+    rendering less elements but can also be a valuable asset in having cleaner DOMs and styles alike -->
+
+
+    <div *ngIf="tasks.length > 0; else noTask">
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Priority</th>
+              <th>Due Date</th>
+              <th>Actions</th>
+              <th>Completed?</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let i of tasks; let idx = index">
+            <tr *ngIf="!i.isCompleted">
+              <td>{{ i.description }}</td>
+              <td>{{ i.priority }}</td>
+              <td>{{ i.dueDate }}</td>
+              <td>
                 <button (click)="deleteTask(idx)">X</button>
                 <button (click)="modifyTask(idx)">Modify</button>
-            </td>
-        </tr>
-    </table>
-</div>
+              </td>
+              <td>
+                <input type="checkbox" name="completed" (click)="taskCompleted(idx)" [checked]="i.isCompleted">
+                <label for="completed">Completed</label>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
 <ng-template #noTask>
     <h2> You have no task </h2>
